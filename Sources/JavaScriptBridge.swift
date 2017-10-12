@@ -9,9 +9,12 @@
 import Foundation
 import EventKit
 
+class RRuleSwift {}
+
 internal struct JavaScriptBridge {
     internal static func rrulejs() -> String? {
-        let libPath = Bundle(identifier: "Teambition.RRuleSwift-iOS")?.path(forResource: "rrule", ofType: "js") ?? Bundle.main.path(forResource: "rrule", ofType: "js")
+        let framework = Bundle(for: RRuleSwift.self)
+        let libPath = framework.path(forResource: "rrule", ofType: "js")
         guard let rrulelibPath = libPath else {
             return nil
         }
