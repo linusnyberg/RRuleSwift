@@ -104,11 +104,12 @@ public extension RecurrenceRule {
         guard let nextOccurrence = Iterator.rruleContext?.evaluateScript("rule.before(new Date('\(dateJSON)'), \(inclusive.description))").toDate() else {
             return nil
         }
+        guard nextOccurrence > startDate else { return nil }
         
         if let exdates = exdate?.dates, let component = exdate?.component {
             for exdate in exdates {
                 if calendar.isDate(nextOccurrence, equalTo: exdate, toGranularity: component) {
-                    return nil
+                    return before(date: nextOccurrence, inclusive: inclusive)
                 }
             }
         }
@@ -128,11 +129,12 @@ public extension RecurrenceRule {
         guard let nextOccurrence = Iterator.rruleContext?.evaluateScript("rule.after(new Date('\(dateJSON)'), \(inclusive.description))").toDate() else {
             return nil
         }
+        guard nextOccurrence > startDate else { return nil }
         
         if let exdates = exdate?.dates, let component = exdate?.component {
             for exdate in exdates {
                 if calendar.isDate(nextOccurrence, equalTo: exdate, toGranularity: component) {
-                    return nil
+                    return after(date: nextOccurrence, inclusive: inclusive)
                 }
             }
         }
