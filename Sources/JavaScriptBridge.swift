@@ -56,7 +56,7 @@ internal extension EKWeekday {
 }
 
 internal extension RecurrenceRule {
-    internal func toJSONString(endless endlessRecurrenceCount: Int) -> String {
+    internal func toJSONString(endless endlessRecurrenceCount: Int? = nil) -> String {
         var jsonString = "freq: \(frequency.toJSONFrequency()),"
         jsonString += "interval: \(max(1, interval)),"
         jsonString += "wkst: \(firstDayOfWeek.toJSONSymbol()),"
@@ -66,7 +66,7 @@ internal extension RecurrenceRule {
             jsonString += "until: new Date('\(RRule.ISO8601DateFormatter.string(from: endDate))'),"
         } else if let count = recurrenceEnd?.occurrenceCount {
             jsonString += "count: \(count),"
-        } else {
+        } else if let endlessRecurrenceCount = endlessRecurrenceCount {
             jsonString += "count: \(endlessRecurrenceCount),"
         }
 
