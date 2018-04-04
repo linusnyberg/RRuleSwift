@@ -30,7 +30,7 @@ public struct RRule {
             return nil
         }
         let ruleString = String(string.suffix(from: range.upperBound))
-        let rules = ruleString.components(separatedBy: ";").flatMap { (rule) -> String? in
+        let rules = ruleString.components(separatedBy: ";").compactMap { (rule) -> String? in
             if (rule.isEmpty || rule.count == 0) {
                 return nil
             }
@@ -83,7 +83,7 @@ public struct RRule {
             }
 
             if ruleName == "BYSETPOS" {
-                let bysetpos = ruleValue.components(separatedBy: ",").flatMap({ (string) -> Int? in
+                let bysetpos = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
                     guard let setpo = Int(string), (-366...366 ~= setpo) && (setpo != 0) else {
                         return nil
                     }
@@ -93,7 +93,7 @@ public struct RRule {
             }
 
             if ruleName == "BYYEARDAY" {
-                let byyearday = ruleValue.components(separatedBy: ",").flatMap({ (string) -> Int? in
+                let byyearday = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
                     guard let yearday = Int(string), (-366...366 ~= yearday) && (yearday != 0) else {
                         return nil
                     }
@@ -103,7 +103,7 @@ public struct RRule {
             }
 
             if ruleName == "BYMONTH" {
-                let bymonth = ruleValue.components(separatedBy: ",").flatMap({ (string) -> Int? in
+                let bymonth = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
                     guard let month = Int(string), 1...12 ~= month else {
                         return nil
                     }
@@ -113,7 +113,7 @@ public struct RRule {
             }
 
             if ruleName == "BYWEEKNO" {
-                let byweekno = ruleValue.components(separatedBy: ",").flatMap({ (string) -> Int? in
+                let byweekno = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
                     guard let weekno = Int(string), (-53...53 ~= weekno) && (weekno != 0) else {
                         return nil
                     }
@@ -123,7 +123,7 @@ public struct RRule {
             }
 
             if ruleName == "BYMONTHDAY" {
-                let bymonthday = ruleValue.components(separatedBy: ",").flatMap({ (string) -> Int? in
+                let bymonthday = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
                     guard let monthday = Int(string), (-31...31 ~= monthday) && (monthday != 0) else {
                         return nil
                     }
@@ -135,28 +135,28 @@ public struct RRule {
             if ruleName == "BYDAY" {
                 // These variables will define the weekdays where the recurrence will be applied.
                 // In the RFC documentation, it is specified as BYDAY, but was renamed to avoid the ambiguity of that argument.
-                let byweekday = ruleValue.components(separatedBy: ",").flatMap({ (string) -> EKWeekday? in
+                let byweekday = ruleValue.components(separatedBy: ",").compactMap({ (string) -> EKWeekday? in
                     return EKWeekday.weekdayFromSymbol(string)
                 })
                 recurrenceRule.byweekday = byweekday.sorted(by: <)
             }
 
             if ruleName == "BYHOUR" {
-                let byhour = ruleValue.components(separatedBy: ",").flatMap({ (string) -> Int? in
+                let byhour = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
                     return Int(string)
                 })
                 recurrenceRule.byhour = byhour.sorted(by: <)
             }
 
             if ruleName == "BYMINUTE" {
-                let byminute = ruleValue.components(separatedBy: ",").flatMap({ (string) -> Int? in
+                let byminute = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
                     return Int(string)
                 })
                 recurrenceRule.byminute = byminute.sorted(by: <)
             }
 
             if ruleName == "BYSECOND" {
-                let bysecond = ruleValue.components(separatedBy: ",").flatMap({ (string) -> Int? in
+                let bysecond = ruleValue.components(separatedBy: ",").compactMap({ (string) -> Int? in
                     return Int(string)
                 })
                 recurrenceRule.bysecond = bysecond.sorted(by: <)
@@ -190,7 +190,7 @@ public struct RRule {
             rruleString += "COUNT=\(count);"
         }
 
-        let bysetposStrings = rule.bysetpos.flatMap({ (setpo) -> String? in
+        let bysetposStrings = rule.bysetpos.compactMap({ (setpo) -> String? in
             guard (-366...366 ~= setpo) && (setpo != 0) else {
                 return nil
             }
@@ -200,7 +200,7 @@ public struct RRule {
             rruleString += "BYSETPOS=\(bysetposStrings.joined(separator: ","));"
         }
 
-        let byyeardayStrings = rule.byyearday.flatMap({ (yearday) -> String? in
+        let byyeardayStrings = rule.byyearday.compactMap({ (yearday) -> String? in
             guard (-366...366 ~= yearday) && (yearday != 0) else {
                 return nil
             }
@@ -210,7 +210,7 @@ public struct RRule {
             rruleString += "BYYEARDAY=\(byyeardayStrings.joined(separator: ","));"
         }
 
-        let bymonthStrings = rule.bymonth.flatMap({ (month) -> String? in
+        let bymonthStrings = rule.bymonth.compactMap({ (month) -> String? in
             guard 1...12 ~= month else {
                 return nil
             }
@@ -220,7 +220,7 @@ public struct RRule {
             rruleString += "BYMONTH=\(bymonthStrings.joined(separator: ","));"
         }
 
-        let byweeknoStrings = rule.byweekno.flatMap({ (weekno) -> String? in
+        let byweeknoStrings = rule.byweekno.compactMap({ (weekno) -> String? in
             guard (-53...53 ~= weekno) && (weekno != 0) else {
                 return nil
             }
@@ -230,7 +230,7 @@ public struct RRule {
             rruleString += "BYWEEKNO=\(byweeknoStrings.joined(separator: ","));"
         }
 
-        let bymonthdayStrings = rule.bymonthday.flatMap({ (monthday) -> String? in
+        let bymonthdayStrings = rule.bymonthday.compactMap({ (monthday) -> String? in
             guard (-31...31 ~= monthday) && (monthday != 0) else {
                 return nil
             }

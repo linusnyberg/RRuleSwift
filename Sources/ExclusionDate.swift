@@ -25,14 +25,14 @@ public struct ExclusionDate {
             return nil
         }
         let exdateString = String(string.suffix(from: range.upperBound))
-        let exdates = exdateString.components(separatedBy: ",").flatMap { (dateString) -> String? in
+        let exdates = exdateString.components(separatedBy: ",").compactMap { (dateString) -> String? in
             if (dateString.isEmpty || dateString.count == 0) {
                 return nil
             }
             return dateString
         }
 
-        self.dates = exdates.flatMap({ (dateString) -> Date? in
+        self.dates = exdates.compactMap({ (dateString) -> Date? in
             return RRule.dateFormatter.date(from: dateString)
         })
         self.component = component
