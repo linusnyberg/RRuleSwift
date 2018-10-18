@@ -12,6 +12,7 @@
     "tag": "0.2.1"
   },
   "platforms": {
+    "macOS": "10.11",
     "ios": "8.0",
     "watchos": "2.0"
   },
