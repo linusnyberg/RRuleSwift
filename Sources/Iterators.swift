@@ -93,7 +93,7 @@ public extension RecurrenceRule {
     }
     
     public func before(date: Date, inclusive: Bool = false) -> Date? {
-        guard let _ = JavaScriptBridge.rrulejs() else {
+        guard let startDate = startDate, let _ = JavaScriptBridge.rrulejs() else {
             return nil
         }
         
@@ -118,10 +118,10 @@ public extension RecurrenceRule {
     }
     
     public func after(date: Date, inclusive: Bool = false) -> Date? {
-        guard let _ = JavaScriptBridge.rrulejs() else {
-            return nil
-        }
-        
+		guard let startDate = startDate, let _ = JavaScriptBridge.rrulejs() else {
+			return nil
+		}
+
         let dateJSON = RRule.ISO8601DateFormatter.string(from: date)
         
         let ruleJSONString = toJSONString()

@@ -59,8 +59,12 @@ internal extension RecurrenceRule {
     internal func toJSONString(endless endlessRecurrenceCount: Int? = nil) -> String {
         var jsonString = "freq: \(frequency.toJSONFrequency()),"
         jsonString += "interval: \(max(1, interval)),"
-        jsonString += "wkst: \(firstDayOfWeek.toJSONSymbol()),"
-        jsonString += "dtstart: new Date('\(RRule.ISO8601DateFormatter.string(from: startDate))'),"
+		if let firstDayOfWeek = firstDayOfWeek {
+			jsonString += "wkst: \(firstDayOfWeek.toJSONSymbol()),"
+		}
+		if let startDate = startDate {
+			jsonString += "dtstart: new Date('\(RRule.ISO8601DateFormatter.string(from: startDate))'),"
+		}
 
         if let endDate = recurrenceEnd?.endDate {
             jsonString += "until: new Date('\(RRule.ISO8601DateFormatter.string(from: endDate))'),"

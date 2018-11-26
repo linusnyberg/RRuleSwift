@@ -22,14 +22,10 @@ public struct RecurrenceRule {
     public var interval = 1
 
     /// Indicates which day of the week the recurrence rule treats as the first day of the week. 
-    ///
-    /// The default value of this property is EKWeekday.monday.
-    public var firstDayOfWeek: EKWeekday = .monday
+    public var firstDayOfWeek: EKWeekday? = nil
 
     /// The start date of recurrence rule.
-    ///
-    /// The default value of this property is current date.
-    public var startDate = Date()
+	public var startDate: Date? = nil
 
     /// Indicates when the recurrence rule ends. This can be represented by an end date or a number of occurrences.
     public var recurrenceEnd: EKRecurrenceEnd?
